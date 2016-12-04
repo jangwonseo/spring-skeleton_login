@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,35 @@ public class HomeController {
         return "jstlTest";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/test/testing")
     public String test(Model model){
-        return "test";
+        String str = "우리는 한 팀이다.";
+        model.addAttribute("str",str);
+        return "testing/test";
+
     }
+
+    //파라미터가 없어도 페이지로 넘거가긴함 httpSevletRequest의 경우.,
+    @RequestMapping("/test/requestHTTP")
+    public String tested(HttpServletRequest httpServletRequest, Model model){
+        String id = httpServletRequest.getParameter("id");
+        String pw = httpServletRequest.getParameter("pw");
+
+        model.addAttribute("id", id);
+        model.addAttribute("pw", pw);
+
+        return "/testing/tested";
+    }
+
+    //requestParam은 파라미터값이 안오면 404에러남
+    @RequestMapping("/test/requestParam")
+    public String paramTest(@RequestParam("id") String id, @RequestParam("pw") String pw, Model model){
+        model.addAttribute("id", "mklmkl2001");
+        model.addAttribute("pw", "link1234");
+
+        return "testing/checkId";
+    }
+
+    @RequestMapping("/test/member")
 
 }
